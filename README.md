@@ -112,7 +112,7 @@ virtual environment before running this script*:
 
 #### usage
 
-`~/ubuntu3838/scripts/pytools.py`
+`~/ubuntu38/scripts/pytools.py`
 
 [top](#top)
 
