@@ -1,6 +1,6 @@
 # <a id="top"></a> ubuntu
 
-## *Note, this version of Ubuntu setup will support Python down to version 3.8.10*
+## *Note: this version of Ubuntu setup will support Python down to version 3.8.10. For Ubuntu setups with Python version 3.10 or greater, use [this repository]() instead*
 
 <br>
 
