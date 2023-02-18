@@ -112,8 +112,7 @@ def run_script(e: Environment) -> None:
     # correct. It may not be absolutely necessary, but it won't hurt.
 
     labels.next()
-    base = f'{e.HOME}/ubuntu/scripts/'
-    cmd = f'find {base} -name *.py -exec chmod 754 {{}} ;'
+    cmd = f'find {e.SCRIPTS} -name *.py -exec chmod 754 {{}} ;'
     print(run_one_command(e, cmd))
 
     # ------------------------------------------

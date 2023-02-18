@@ -133,5 +133,5 @@ set -o ignoreeof     # ^D will not exit shell
 ###########################################################
 
 alias nb='python3 -m nuitka --follow-imports --remove-output'
-alias tuneup='~/ubuntu/scripts/tuneup.py'
-alias cacheburn='~/ubuntu/scripts/cacheburn.py'
+alias tuneup='~/ubuntu38/scripts/tuneup.py'
+alias cacheburn='~/ubuntu38/scripts/cacheburn.py'

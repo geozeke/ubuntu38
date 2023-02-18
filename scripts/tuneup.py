@@ -58,7 +58,7 @@ def run_updates(args: argparse.Namespace, e: Environment) -> None:
         # Pull updates to the ubuntu git repo. This facilitates installing
         # custom patches later.
         labels.next()
-        cmd = f'git -C {e.HOME}/ubuntu pull'
+        cmd = f'git -C {e.UBUNTU} pull'
         print(run_one_command(e, cmd))
 
         # Update selected Python packages. Start with pip itself to ensure

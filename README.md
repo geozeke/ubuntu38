@@ -97,7 +97,7 @@ installation.
 
 #### usage
 
-`~/ubuntu/scripts/pyenv_setup.py`
+`~/ubuntu38/scripts/pyenv_setup.py`
 
 [top](#top)
 
@@ -112,7 +112,7 @@ virtual environment before running this script*:
 
 #### usage
 
-`~/ubuntu/scripts/pytools.py`
+`~/ubuntu3838/scripts/pytools.py`
 
 [top](#top)
 
@@ -168,7 +168,7 @@ Compose](https://docs.docker.com/get-started/08_using_compose/).
 
 #### usage
 
-`~/ubuntu/scripts/docker_setup.py`
+`~/ubuntu38/scripts/docker_setup.py`
 
 [top](#top)
 
@@ -181,6 +181,6 @@ better look-and-feel for vi.
 
 #### usage
 
-`~/ubuntu/scripts/vim_setup.py`
+`~/ubuntu38/scripts/vim_setup.py`
 
 [top](#top)
