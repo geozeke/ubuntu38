@@ -18,7 +18,7 @@ class Environment:
         # Minimum required python version for Ubuntu VM scripts.
 
         self.MAJOR = 3
-        self.MINOR = 10
+        self.MINOR = 8
 
         # PASS and FAIL markers; flag for enabling debug mode; and an
         # environment variable to hold the result from running commands using
