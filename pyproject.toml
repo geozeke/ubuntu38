@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "ubuntu"
+version = "0.1.0"
+description = "Tools to setup and manage an Ubuntu VM"
+authors = ["Peter Nardi <pete@nardi.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.8.10"
+
+
+[tool.poetry.group.dev.dependencies]
+autopep8 = "^2.0.0"
+flake8 = "^5.0.4"
+flake8-docstrings = "^1.6.0"
+mypy = "^0.982"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -1,0 +1,6 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# Make sure the language parser uses python.
+* linguist-vendored
+*.py linguist-vendored=false

@@ -1,0 +1,10 @@
+[/]
+custom-font='Monospace 14'
+indent-style='space'
+right-margin-position=uint32 79
+show-line-numbers=true
+show-map=false
+show-right-margin=true
+style-scheme='Adwaita-dark'
+tab-width=uint32 4
+use-system-font=false

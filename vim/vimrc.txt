@@ -1,0 +1,68 @@
+"Last update: 12/02/22
+
+"Basic setup items. Set columns to 90 to make room for line numbers.
+
+set wrap
+set tabstop=4
+set expandtab
+set autoindent
+set smartindent
+set shiftwidth=4
+set columns=90
+set textwidth=79
+set number
+
+"Turn on colorized syntax, set color scheme and highlight color for spell
+"checking
+
+syntax on
+colorscheme afterglow
+"colorscheme deus
+"colorscheme elford
+"colorscheme default
+"colorscheme nord
+"colorscheme space-vim-dark
+
+"Clear spell check highlight to override any settings imposed by the color
+"scheme
+
+highlight clear SpellBad
+
+"Spell check highlight is a light gold / yellow
+
+highlight SpellBad ctermbg=89
+
+"Highlight searches and search incrementally as you type
+
+set hlsearch
+set incsearch
+
+"Setup the status line.
+
+set laststatus=2
+
+set statusline=%t             "tail of the filename
+set statusline+=%h            "help file flag
+set statusline+=%m            "modified flag
+set statusline+=%r            "read only flag
+set statusline+=%=            "left/right separator
+set statusline+=%b,0x%-8B\    "dec and hex value of current character.
+set statusline+=%c,           "cursor column
+set statusline+=%l/%L         "cursor line/total lines
+set statusline+=\ %P\         "percent through file
+
+"Enable shell command line completion
+
+set wildmode=longest,list
+set wildmenu
+
+"Enable highlighting of text that goes beyond 80 columns
+"Start disabled.  With line numbers present, this becomes less useful.
+
+"highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+"match OverLength /\%81v.\+/
+
+"Map cntl-l to clear and redraw the screen.  This removes highlighting from
+"previous searches.
+
+nnoremap <silent> <C-l> :nohl<CR><C-l>

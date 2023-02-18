@@ -1,0 +1,7 @@
+.git*
+LICENSE
+Makefile
+poetry.lock
+poetry.toml
+pyproject.toml
+README.md
