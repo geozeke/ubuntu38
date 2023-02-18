@@ -3,6 +3,8 @@
 
 import argparse
 from typing import Any
+from typing import List
+from typing import Tuple
 
 from library.classes import Environment
 from library.classes import Labels
@@ -47,7 +49,7 @@ def run_script(e: Environment) -> None:
     # Step 3. Copying files
 
     labels.next()
-    targets: list[tuple[Any, Any]] = []
+    targets: List[Tuple[Any, Any]] = []
     targets.append((e.VIM/'vimrc.txt', e.HOME/'.vimrc'))
     targets.append((e.VIM/'vimcolors/*', e.HOME/'.vim/colors'))
     copy_files(e, targets)

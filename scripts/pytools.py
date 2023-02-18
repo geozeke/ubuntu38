@@ -2,6 +2,7 @@
 """Install Python development tools."""
 
 import argparse
+from typing import List
 
 from library.classes import Environment
 from library.classes import Labels
@@ -37,7 +38,7 @@ def run_script(e: Environment) -> None:
     # Step 2, 3, 4 Install jupyter, jupyterlab & pytest
 
     base = 'pip3 install --upgrade TARGET'
-    commands: list[str] = []
+    commands: List[str] = []
     commands.append(base.replace('TARGET', 'jupyter'))
     commands.append(base.replace('TARGET', 'jupyterlab'))
     commands.append(base.replace('TARGET', 'pytest'))

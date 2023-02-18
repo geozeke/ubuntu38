@@ -10,6 +10,7 @@ RuntimeError
 import argparse
 import getpass
 import tempfile
+from typing import List
 
 from library.classes import Environment
 from library.classes import Labels
@@ -62,7 +63,7 @@ def run_script(e: Environment) -> None:
     # Step 1: System initialization.
 
     labels.next()
-    targets: list[str] = []
+    targets: List[str] = []
     print(e.PASS)
 
     # ------------------------------------------
@@ -70,7 +71,7 @@ def run_script(e: Environment) -> None:
     # Step 2: Update package index
 
     labels.next()
-    commands: list[str] = []
+    commands: List[str] = []
     commands.append('sudo apt update')
     commands.append('sudo apt upgrade -y')
     for command in commands:

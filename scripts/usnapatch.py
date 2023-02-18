@@ -10,6 +10,7 @@ RuntimeError
 import argparse
 import tempfile
 from pathlib import Path
+from typing import List
 
 from library.classes import Environment
 from library.classes import Labels
@@ -22,7 +23,7 @@ from library.utilities import wrap_tight
 CERTFILE = 'apt.cs.usna.edu/ssl/system-certs-5.6-pa.tgz'
 
 
-def find_db_files(starting: Path) -> list[Path]:
+def find_db_files(starting: Path) -> List[Path]:
     """Find certificate db files.
 
     In this case, a certificate db file is any file that starts with
@@ -39,7 +40,7 @@ def find_db_files(starting: Path) -> list[Path]:
         A list of fully-expressed pathlib objects for all db instances
         found.
     """
-    L: list[Path] = []
+    L: List[Path] = []
     for p in starting.rglob('*'):
         if p.name.startswith('cert') and p.suffix == '.db':
             L.append(p)
@@ -93,9 +94,9 @@ def run_script(args: argparse.Namespace, e: Environment) -> None:
 
     labels.next()
     certdir = Path(tempfile.NamedTemporaryFile().name)
-    certlist: list[Path] = []
+    certlist: List[Path] = []
     certdir.mkdir(parents=True)
-    commands: list[str] = []
+    commands: List[str] = []
     commands.append(f'curl -o {certdir}/certs.tgz {CERTFILE}')
     commands.append(f'tar -xpf {certdir}/certs.tgz -C {certdir}')
     for command in commands:
@@ -115,78 +116,76 @@ def run_script(args: argparse.Namespace, e: Environment) -> None:
 
     # Step 2: Take action based on selected options.
 
-    match args.mode:
+    if args.mode == 'system':
+        # Patch openssl configuration
+        labels.next()
+        target = '/usr/lib/ssl/openssl.cnf'
+        cmd = f'sudo cp -f {e.SYSTEM}/openssl.cnf {target}'
+        print(run_one_command(e, cmd))
 
-        case 'system':
-            # Patch openssl configuration
-            labels.next()
-            target = '/usr/lib/ssl/openssl.cnf'
-            cmd = f'sudo cp -f {e.SYSTEM}/openssl.cnf {target}'
-            print(run_one_command(e, cmd))
+        # Clean out any old certificates:
+        labels.next()
+        dir1 = '/usr/share/ca-certificates/dod'
+        dir2 = '/usr/local/share/ca-certificates/dod'
+        targets: List[str] = []
+        targets.append(dir1)
+        targets.append(dir2)
+        cmd = 'sudo rm -rf TARGET'
+        print(run_many_arguments(e, cmd, targets))
 
-            # Clean out any old certificates:
-            labels.next()
-            dir1 = '/usr/share/ca-certificates/dod'
-            dir2 = '/usr/local/share/ca-certificates/dod'
-            targets: list[str] = []
-            targets.append(dir1)
-            targets.append(dir2)
-            cmd = 'sudo rm -rf TARGET'
-            print(run_many_arguments(e, cmd, targets))
+        # Create fresh directory
+        labels.next()
+        cmd = f'sudo mkdir -p {dir2}'
+        print(run_one_command(e, cmd))
 
-            # Create fresh directory
-            labels.next()
-            cmd = f'sudo mkdir -p {dir2}'
-            print(run_one_command(e, cmd))
+        # Copy certificates to new directory
+        labels.next()
+        for cert in certlist:
+            cmd = f'sudo cp {cert} {dir2}'
+            result = run_one_command(e, cmd)
+            if result == e.FAIL:
+                break
+        print(result)
 
-            # Copy certificates to new directory
-            labels.next()
+        # Run the update utility
+        labels.next()
+        cmd = 'sudo update-ca-certificates -f'
+        print(run_one_command(e, cmd))
+
+        # Dump unused labels:
+        labels.dump(2)
+
+    elif args.mode == 'browser':
+        # Dump unused labels
+        labels.dump(5)
+
+        # From the user's home directory, look for certificate database
+        # files inside any hidden directory (starting with '.')
+        labels.next()
+        cert_databases: List[Path] = []
+        for p in Path.home().iterdir():
+            if p.is_dir and p.name.startswith('.'):
+                cert_databases += find_db_files(p)
+        print(e.PASS)
+
+        # Once any / all certificate databases are found, update them with
+        # the certutil utility using the certificates taken from the USNA
+        # server.
+        labels.next()
+        result = e.PASS
+        for db in cert_databases:
+            cmd_root = f'certutil -d sql:{db.parent} -A -t \"TC\"'
             for cert in certlist:
-                cmd = f'sudo cp {cert} {dir2}'
+                cmd = f'{cmd_root} -n {cert.stem} -i {cert}'
                 result = run_one_command(e, cmd)
                 if result == e.FAIL:
                     break
-            print(result)
+            if result == e.FAIL:
+                break
+        print(result)
 
-            # Run the update utility
-            labels.next()
-            cmd = 'sudo update-ca-certificates -f'
-            print(run_one_command(e, cmd))
-
-            # Dump unused labels:
-            labels.dump(2)
-
-        case 'browser':
-            # Dump unused labels
-            labels.dump(5)
-
-            # From the user's home directory, look for certificate database
-            # files inside any hidden directory (starting with '.')
-            labels.next()
-            cert_databases: list[Path] = []
-            for p in Path.home().iterdir():
-                if p.is_dir and p.name.startswith('.'):
-                    cert_databases += find_db_files(p)
-            print(e.PASS)
-
-            # Once any / all certificate databases are found, update them with
-            # the certutil utility using the certificates taken from the USNA
-            # server.
-            labels.next()
-            result = e.PASS
-            for db in cert_databases:
-                cmd_root = f'certutil -d sql:{db.parent} -A -t \"TC\"'
-                for cert in certlist:
-                    cmd = f'{cmd_root} -n {cert.stem} -i {cert}'
-                    result = run_one_command(e, cmd)
-                    if result == e.FAIL:
-                        break
-                if result == e.FAIL:
-                    break
-            print(result)
-
-        case _:
-            pass
+    else:
+        pass
 
     # ------------------------------------------
 

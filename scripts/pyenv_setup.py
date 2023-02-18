@@ -8,6 +8,7 @@ RuntimeError
 """
 
 import argparse
+from typing import List
 
 from library.classes import Environment
 from library.classes import Labels
@@ -73,7 +74,7 @@ def run_script(e: Environment) -> None:
 
     labels.next()
     cmd = 'sudo apt install TARGET -y'
-    targets: list[str] = []
+    targets: List[str] = []
     targets.append('make')
     targets.append('build-essential')
     targets.append('libssl-dev')

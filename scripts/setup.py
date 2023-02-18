@@ -10,6 +10,8 @@ RuntimeError
 import argparse
 from pathlib import Path
 from typing import Any
+from typing import List
+from typing import Tuple
 
 from library.classes import Environment
 from library.classes import Labels
@@ -68,9 +70,9 @@ def run_script(e: Environment) -> None:
     # Commands with special target-types are shown below.
 
     labels.next()
-    dir_targets: list[Path] = []
-    file_targets: list[tuple[Any, Any]] = []
-    targets: list[str] = []
+    dir_targets: List[Path] = []
+    file_targets: List[Tuple[Any, Any]] = []
+    targets: List[str] = []
     print(e.PASS)
 
     # ------------------------------------------

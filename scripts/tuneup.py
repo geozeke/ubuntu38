@@ -8,6 +8,7 @@ RuntimeError
 """
 
 import argparse
+from typing import List
 
 from library.classes import Environment
 from library.classes import Labels
@@ -39,7 +40,7 @@ def run_updates(args: argparse.Namespace, e: Environment) -> None:
 
     # Ubuntu updates (verbose)
 
-    commands: list[str] = []
+    commands: List[str] = []
     commands.append('sudo apt update')
     commands.append('sudo apt upgrade -y')
     commands.append('sudo apt autoclean -y')
@@ -62,7 +63,7 @@ def run_updates(args: argparse.Namespace, e: Environment) -> None:
 
         # Update selected Python packages. Start with pip itself to ensure
         # we've got the lastest version of the Python package installer.
-        pips: list[str] = []
+        pips: List[str] = []
         pips.append('pip')
         pips.append('jupyter')
         pips.append('jupyterlab')
